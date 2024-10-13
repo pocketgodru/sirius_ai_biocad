@@ -1,0 +1,12 @@
+transformers 
+sentence-transformers 
+faiss-cpu 
+langchain 
+PyPDF2 
+langchain_community 
+optimum 
+auto-gptq 
+langchain_huggingface 
+pypdf
+flask
+gradio_client
