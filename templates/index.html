@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <title>QuickInsight</title>
+
+    <style>
+        /* Лоадер */
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+            position: relative;
+            top: 30vh;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-container {
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p class="name">QuickInsight</p>
+    </header>
+
+    
+    
+    <main id="main-1" class="main-1">
+        <form id="uploadForm" enctype="multipart/form-data"></form>
+            <div class="conteiner-upfile">
+                    <button class="btn-load-file">
+                        <label for="file">Загрузить файл</label>
+                        <img src="../static/image 1.png" for="file" alt="Загрузить файл" style="width: 2vw; top: 0.5vh; left: 1vw; position: relative;">
+                        <input id="file" name="file" type="file" style="display: none;">
+                    </button>
+                
+                <p id="fileCount" class="max-file"> 
+                    Загржено 0 <br>
+                    файлов
+                </p>
+            </div>
+
+            <p class="ili">ИЛИ</p>
+
+            <div class="text-area">
+                <p style="color: #EDF0F5; font-family: gilroy-lightitalic; font-size: 1.5vw; text-align: center; top:1vh; position: relative;">
+                    <strong>Напишите текст!</strong>
+                </p>
+                <textarea id="inputText" wrap="soft" rows="10" cols="30"></textarea>
+                <button id="submitText" class="btn-send"><img src="../static/Frame 5.png" style="height: 7vh; width: 7vh;"/></button>
+            </div>
+        </form>
+    </main>
+
+    <main id="main-2" class="main-2">
+        <div class="conteiner-sum">
+            <p class="conteiner-sum-text">Суммаризировать текст</p>
+            <button id="summarizeButton" class="conteiner-sum-but"><img src="../static/Frame 5.png" width="60vw" height="auto" /></button>
+        </div>
+
+
+        <p class="ili">ИЛИ</p>
+
+        <div class="text-area-qa">
+
+            <p style="color: #EDF0F5; font-family: gilroy-lightitalic; font-size: 1.5vw; text-align: center; top:1vh; position: relative;">
+                <strong>Задайте вопрос по тексту!</strong>
+             </p>
+
+            <textarea id="questionText" wrap="soft" rows="10" cols="30"></textarea>
+            <button id="askQuestionButton" class="btn-send"><img src="../static/Frame 5.png" /></button>
+            
+        </div>
+        <div class="back-fone" onclick="close_compression_percentage_selection()" style="display: none;"></div>
+        <div class="compression-percentage-selection" style="display:none;">
+            <p class="compression-percentage-selection-text">Сколько % оставить от исходного текста?</p>
+            <button id="confirmSummarizeButton" class="percentage-sum-but"><img src="../static/Frame 5.png" width="50vw" height="auto"></button>
+            <input class="percentage-selection" id="slider" type="range" onchange="updateText()" min="5" max="95" step="1" value="50">
+            <span id="sliderValue" class="slider-value">50</span>
+            <p style="position: relative; left: 1.5vw; top: 3vh; font-family: gilroy-lightitalic;">5%</p>
+            <p style="position: absolute; right: 1vw; bottom: 6vh; font-family: gilroy-lightitalic;">95%</p>
+        </div>
+
+    </main>
+
+    <main id="main-3" class="main-3">
+        <div class="answer">
+
+            <p style="color: #EDF0F5; font-family: gilroy-lightitalic; font-size: 1.5vw; left: 3vw; top:1vh; position: relative;">
+                <strong>Ответ:</strong>
+            </p>
+
+            <div id="answerText" class="textarea-answer" readonly wrap="soft" rows="10" cols="30"></div>
+        </div>
+
+        <div class="article-block">
+            <div class="article-block-in">
+    
+                <p style="position: relative; color: #0C204D; font-family: gilroy-semibold; font-size: 2vw; left: 1.5vw;">
+                    Похожие статьи: 
+                </p>
+    
+                <p style="position: relative; color: #BF4B4B; font-family: gilroy-medium; font-size: 1.2vw; left: 1.5vw;">
+                    Выберите тему для просмотра списка статей
+                </p>
+                <table style="position: relative; left: 1vw; border-spacing: 15px; border-collapse: separate;">
+                </table>
+    
+            </div>
+        </div>
+        <div class="back-fone-3" onclick="close_article_block_choose_theme()" style="display: none;"></div>
+        <div class="article-block-choose-theme" style="display: none;">  
+            <p style="position: relative; font-family: gilroy-semibold; font-size: 2.5vw; left: 2vw; top:2vh"> 
+                Статьи по теме:
+            </p>
+
+            <ol class="list-article">
+            </ol>
+
+        </div>
+
+    </main>
+
+    <div id="loading" class="loading-container">
+        <div class="loader"></div>
+        <p style="font-family: gilroy-semibold; font-size: 1.5vw;">Пожалуйста, подождите. Идет обработка данных...</p>
+    </div>
+
+    <script>
+        let sessionId;
+        let articlesData = {}; 
+    
+        function updateText() {
+            const slider = document.getElementById('slider');
+            const sliderValue = document.getElementById('sliderValue');
+            const sliderPos = slider.value;
+    
+            sliderValue.textContent = sliderPos === '5' || sliderPos === '95' ? '' : sliderPos;
+            const sliderWidth = slider.offsetWidth;
+            const maxRange = slider.max;
+            const leftPosition = (sliderPos / maxRange) * sliderWidth;
+            sliderValue.style.left = leftPosition + 20 + 'px';
+        }
+    
+        updateText();
+        
+        function close_compression_percentage_selection() {
+            document.querySelector('.back-fone').style.display = 'none';
+            document.querySelector('.compression-percentage-selection').style.display = 'none';
+        }
+
+        function close_article_block_choose_theme() {
+            document.querySelector('.back-fone-3').style.display = 'none';
+            document.querySelector('.article-block-choose-theme').style.display = 'none';
+        }
+
+        function toggleSections(showMain1, showMain2, showMain3) {
+            document.getElementById('main-1').style.display = showMain1 ? 'block' : 'none';
+            document.getElementById('main-2').style.display = showMain2 ? 'block' : 'none';
+            document.getElementById('main-3').style.display = showMain3 ? 'block' : 'none';
+            document.getElementById('loading').style.display = 'none';
+        }
+    
+        function showLoader() {
+            document.getElementById('main-1').style.display = 'none';
+            document.getElementById('main-2').style.display = 'none';
+            document.getElementById('main-3').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+        }
+    
+        function hideLoader() {
+            document.getElementById('loading').style.display = 'none';
+        }
+    
+        document.getElementById('file').onchange = function() {
+            const fileCountElement = document.getElementById('fileCount');
+            const fileInput = document.getElementById('file');
+            const fileCount = fileInput.files.length;
+    
+            fileCountElement.innerHTML = ` ${fileCount} <br> файл${fileCount === 1 ? '' : 'ов'}`;
+        };
+    
+        document.getElementById('submitText').onclick = async function() {
+            const fileInput = document.getElementById('file');
+            const inputText = document.getElementById('inputText').value;
+    
+            let formData = new FormData();
+            if (fileInput.files.length > 0 && inputText.trim().length > 0) {
+                alert("Нельзя загружать одновременно и файл, и текст! Пожалуйста, выберите только одно.");
+                return;
+            } else if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            } else if (inputText.trim().length > 0) {
+                formData.append('text', inputText);
+            } else {
+                alert("Пожалуйста, загрузите файл или напишите текст!");
+                return;
+            }
+    
+            showLoader();
+            try {
+                const response = await fetch('/process', { method: 'POST', body: formData });
+                const result = await response.json();
+                sessionId = result.session_id;
+                hideLoader();
+                toggleSections(false, true, false);
+            } catch (error) {
+                console.error('Error during upload:', error);
+                alert('Произошла ошибка при загрузке данных.');
+                hideLoader();
+            }
+        };
+    
+        document.getElementById('summarizeButton').onclick = async function() {
+            if (!sessionId) {
+                alert("Текст не загружен!");
+                return;
+            }
+    
+            document.querySelector('.back-fone').style.display = 'block';
+            document.querySelector('.compression-percentage-selection').style.display = 'block';
+        };
+    
+        document.querySelector('.percentage-sum-but').onclick = async function() {
+            document.querySelector('.back-fone').style.display = 'none';
+            const compressionPercentage = document.getElementById('slider').value;
+    
+            let formData = new FormData();
+            formData.append('session_id', sessionId);
+            formData.append('compression_percentage', compressionPercentage);
+    
+            showLoader();
+            try {
+                const response = await fetch('/summarize', { method: 'POST', body: formData });
+                const result = await response.json();
+                document.getElementById('answerText').innerHTML = marked.parse(result.result);
+                loadArticlesData(result.topics, result.articles);
+                hideLoader();
+                toggleSections(false, false, true);
+            } catch (error) {
+                console.error('Error during summarization:', error);
+                hideLoader();
+            }
+        };
+    
+        function loadArticlesData(responseTopics, responseArticles) {
+            articlesData = typeof responseArticles === 'string' ? JSON.parse(responseArticles) : responseArticles;
+            updateTopicsTable(responseTopics);
+        }
+    
+        function updateTopicsTable(topics) {
+            const table = document.querySelector('.article-block-in table');
+            table.innerHTML = ''; // Clear existing topics
+            topics.forEach(topic => {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.textContent = topic;
+                cell.classList.add('topic-cell');
+                cell.onclick = () => displayArticles(topic);
+                row.appendChild(cell);
+                table.appendChild(row);
+            });
+        }
+
+        function displayArticles(topic) {
+            const articleBlock = document.querySelector('.article-block-choose-theme');
+            const articlesList = articleBlock.querySelector('.list-article');
+            document.querySelector('.back-fone-3').style.display = 'block';
+            articleBlock.style.display = 'block';
+
+            articlesList.innerHTML = ''; // Очистка предыдущих элементов списка
+            
+            const articles = articlesData[topic] || [];
+            articles.forEach(article => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('list-article-item');
+                listItem.innerHTML = `
+                    <p class="list-article-item-name">${article.title}</p>
+                    <a class="list-article-item-url" target="_blank" href="${article.url}">Ссылка на статью</a>
+                    <br>
+                    <a class="list-article-item-url" target="_blank"href="${article.pdf_url}">Ссылка на статью (pdf)</a>
+                    <hr>
+                `;
+                articlesList.appendChild(listItem);
+            });
+        }
+
+
+        document.getElementById('askQuestionButton').onclick = async function() {
+            if (!sessionId) {
+                alert("Текст не загружен!");
+                return;
+            }
+    
+            const question = document.getElementById('questionText').value;
+            let formData = new FormData();
+            formData.append('session_id', sessionId);
+            formData.append('question', question);
+    
+            showLoader();
+            try {
+                const response = await fetch('/question', { method: 'POST', body: formData });
+                const result = await response.json();
+                document.getElementById('answerText').innerHTML = marked.parse(result.result);
+                loadArticlesData(result.topics, result.articles);
+                hideLoader();
+                toggleSections(false, false, true);
+            } catch (error) {
+                console.error('Error during question answering:', error);
+                hideLoader();
+            }
+        };
+    
+    </script>
+    
+
+    
+    
+
+</body>
+</html>
