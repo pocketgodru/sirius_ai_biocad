@@ -2,9 +2,14 @@ flask
 werkzeug
 fitz
 docx
+python-docx 
 Pillow
 mimetypes-magic
 pybase64
 mistralai
 langchain_community
 arxiv
+frontend
+tools
+exceptions
+pymupdf
