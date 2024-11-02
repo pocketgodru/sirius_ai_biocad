@@ -69,6 +69,20 @@
 
 </details>
 
+Загружанные статьи(использовались для сравнения резюмирования)
+
+<details>
+
+  <summary>uploads</summary>
+
+- algoritmy_obnaruzheniya_kolliziy_ploskih_dvumernyh_obektov_proizvolnoy.pdf
+- Hugging_Face_Models.pdf
+- lecture_1.pdf
+- Lektsia_4_1.pdf
+- paper88.pdf
+
+</details>
+
 Вспомогательные функции:
 
 <details>
