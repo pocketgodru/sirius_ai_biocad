@@ -3,7 +3,7 @@ werkzeug
 fitz
 docx
 python-docx 
-Pillow
+pillow
 mimetypes-magic
 pybase64
 mistralai
@@ -12,3 +12,5 @@ arxiv
 frontend
 tools
 pymupdf
+PyMuPDF
+tavily-python
