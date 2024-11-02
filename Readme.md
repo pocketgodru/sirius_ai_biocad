@@ -35,7 +35,47 @@
 </p>
 
   
+## Структура файлов
+
+Изображения и шрифты для сайта:
+
+<details>
+
+  <summary>static</summary>
+
+- Frame 5.jpg
+- gilroy-bold.ttf
+- gilroy-lightitalic.ttf
+- gilroy-medium.ttf
+- gilroy-semibold.ttf
+- gilroy-ultralight.ttf
+- image 1.png
+- russianrail-g-pro.otf
+- style.css
+
+</details>
+
+Сайт:
+
+<details>
   
+<summary>templates</summary>
+
+- index.html
+
+</details>
+
+Вспомогательные функции:
+
+<details>
+
+  <summary>utils</summary>
+
+- file_to_text.py
+- llm.py
+- search_article.py
+
+</details>
 
 ## О проекте
 
