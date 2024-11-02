@@ -282,10 +282,16 @@ Pixtral - это языковая модель от компании [Mistral](h
 <center><img  src="https://github.com/user-attachments/assets/6738a399-838c-46e7-b77e-79544a987b43" ></center>
 
 
+**Мы также сравнили модели для резюмирования:** 
 
+| Pixtral | Gpt-4o | Gemini-1.5-Flash |
+| :---: | :---: | :---: |
+| ![firefox_Pmop3sHW7A](https://github.com/user-attachments/assets/9a6ce587-a41a-47a7-9881-f5f8860eb2ad) | ![firefox_P5crL23tSk](https://github.com/user-attachments/assets/e9a75935-02ee-4426-ab2f-b1dfb93fda34) | ![firefox_FYWIvttZUO](https://github.com/user-attachments/assets/99ada765-e145-4ef8-8fe4-73c77cda400e) |
+| ![firefox_qr015kucK3](https://github.com/user-attachments/assets/56f3d8bc-3c3a-4bfb-ad77-a1a49a48bf0f) | ![firefox_sQjOORZB3V](https://github.com/user-attachments/assets/faea4da0-eeea-4b6f-b980-eaf3ac6226ce) | ![FW7XKXAXU9](https://github.com/user-attachments/assets/bae4ba4d-1674-4ebf-bbed-78f1cffb8e99) |
+| ![firefox_v5ZA9FowYd](https://github.com/user-attachments/assets/1614f2b1-bc46-4f9e-94cb-6e7af6bc0355) | ![firefox_4zdMvvsJ2P](https://github.com/user-attachments/assets/0b4b0f02-a965-4462-9ca1-df3bbb45aa55) | ![firefox_0uxb5K72xW](https://github.com/user-attachments/assets/0b4fdbe5-0c76-4b43-90bb-7c72eda61b02) |
+| ![firefox_Vf0JNvayJ1](https://github.com/user-attachments/assets/809a6186-ca0c-4a21-bff9-c5bbff5db537) | ![IxRWbwmptU](https://github.com/user-attachments/assets/df8ff837-2e3a-49c0-a6ed-2469e9a3d9a1) | ![JACiZ7N9jr](https://github.com/user-attachments/assets/dbbb79dc-543b-46aa-8196-2019bb0c7ece) |
+| ![tIkMHMkd2Y](https://github.com/user-attachments/assets/e9076237-e286-4a28-9500-3e8cd16f4617) | ![firefox_8UQVDpAh01](https://github.com/user-attachments/assets/134b2f75-f1c2-4475-b6ed-b0758c9253f4) | ![vmM95bg9Sp](https://github.com/user-attachments/assets/49cd4491-8fe2-48d1-a49f-163dd09fca7b) |
 
-
-  
 
 ## Интерфейс проекта
 
