@@ -304,9 +304,11 @@ Pixtral - это языковая модель от компании [Mistral](h
 Сайт состоит из трех страниц.
 
 
-| 1 страница | 2 страница | 3 страница |
-|:--:|:--:|:--:|
-| ![image1](https://github.com/user-attachments/assets/cb4ec00c-b9c7-4cc5-b436-2890931506db) | ![image2](https://github.com/user-attachments/assets/bbdc9049-72ef-4bf2-bcf5-69573b686fef) | ![image3](https://github.com/user-attachments/assets/0a82c906-a9a3-4ca6-97d8-d0e0c6500013) |
+| 1 страница | 2 страница | 
+|:--:|:--:|
+| ![image](https://github.com/user-attachments/assets/c4392715-fb41-4ab9-b984-364394e65892) | ![image1](https://github.com/user-attachments/assets/cb4ec00c-b9c7-4cc5-b436-2890931506db) | 
+| 3 страница | 4 страница |
+| ![image2](https://github.com/user-attachments/assets/bbdc9049-72ef-4bf2-bcf5-69573b686fef) | ![image3](https://github.com/user-attachments/assets/0a82c906-a9a3-4ca6-97d8-d0e0c6500013) |
 
 ## Использование
 
