@@ -1,4 +1,5 @@
 
+
 <h1  align="center">QuickInsight
 </h1>
   
@@ -76,6 +77,10 @@
 - search_article.py
 
 </details>
+
+**app.py** -  основной код для запуска сайта
+
+**app.ipynb** -  код для установки и запуска сайта
 
 ## О проекте
 
