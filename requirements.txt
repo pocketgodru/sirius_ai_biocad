@@ -11,5 +11,4 @@ langchain_community
 arxiv
 frontend
 tools
-exceptions
 pymupdf
