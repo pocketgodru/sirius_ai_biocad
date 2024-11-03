@@ -332,6 +332,7 @@ Pixtral - это языковая модель от компании [Mistral](h
 https://github.com/user-attachments/assets/40dd9ff5-bb6b-48dc-a014-f11b54f53c9c
 
 
+
 ## Установка и запуск
 
   
