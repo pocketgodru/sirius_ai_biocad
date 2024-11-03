@@ -1,6 +1,4 @@
 
-
-
 <h1  align="center">QuickInsight
 </h1>
   
@@ -329,7 +327,8 @@ Pixtral - это языковая модель от компании [Mistral](h
 ## Использование
 
 
-https://github.com/user-attachments/assets/40dd9ff5-bb6b-48dc-a014-f11b54f53c9c
+[https://github.com/user-attachments/assets/5d8639d8-d6c7-4962-858b-bb7104b36853](https://github.com/user-attachments/assets/33ff8ab9-7525-443b-9ce5-bcda6daed69d
+)
 
 
 
