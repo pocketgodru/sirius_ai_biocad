@@ -385,4 +385,4 @@ Pixtral - это языковая модель от компании [Mistral](h
 
 ## Обратная связь
 
-example@mail.ru
+kv.chekurin@gmail.com
