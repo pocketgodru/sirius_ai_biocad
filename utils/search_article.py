@@ -1,7 +1,7 @@
 import json
 import concurrent.futures
 from mistralai import Mistral
-import arxiv  # Using arxiv.py for article search
+import arxiv
 
 api_key_1 = 'eLES5HrVqduOE1OSWG6C5XyEUeR7qpXQ'
 client_1 = Mistral(api_key=api_key_1)
