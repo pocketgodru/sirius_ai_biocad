@@ -7,10 +7,6 @@ import os
 if not os.environ.get("TAVILY_API_KEY"):
     os.environ["TAVILY_API_KEY"] = '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'
 
-# Инициализация нескольких клиентов Mistral
-#api_key_1 = 'eLES5HrVqduOE1OSWG6C5XyEUeR7qpXQ'
-#client_1 = Mistral(api_key=api_key_1)
-
 api_key_2 = 'VPqG8sCy3JX5zFkpdiZ7bRSnTLKwngFJ'
 client_2 = Mistral(api_key=api_key_2)
 
@@ -24,7 +20,6 @@ def setup_search(question):
     #tool = JinaSearch()
     #return json.loads(str(tool.invoke({"query": f"{question}"})))
 
-#Какие ещё есть модели на основе Transformer?
 def ask_question_to_mistral(text, question, images=[]):
     prompt = f"Answer the following question without mentioning it or repeating the original text on which the question is asked in style markdown:\nQuestion: {question}\n\nText:\n{text}"
     
