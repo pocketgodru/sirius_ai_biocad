@@ -6,20 +6,16 @@ from utils.llm import *
 from utils.file_to_text import process_file
 from utils.search_article import *
 
-# Flask app
 app = Flask(__name__)
 
-# Folder to save uploaded files
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'txt', 'csv', 'doc', 'docx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# Dictionary to store uploaded text for session
 uploaded_text = {}
 
-# Check if the file extension is allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -35,8 +31,7 @@ def process_files():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
-            
-            # Extract text and images from the file (PDF/DOCX/TXT)
+
             text, images = process_file(filepath)
             
             if text is None:
@@ -49,7 +44,6 @@ def process_files():
     else:
         return jsonify({"result": "No file or text provided"})
 
-    # Save the text to uploaded_text dictionary with a session-based key
     session_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     uploaded_text[session_id] = {"text": text, "images": images}
 
@@ -58,18 +52,17 @@ def process_files():
 @app.route('/summarize', methods=['POST'])
 def summarize_text():
     session_id = request.form.get('session_id')
-    compression_percentage = request.form.get('compression_percentage')  # Получаем процент сжатия
+    compression_percentage = request.form.get('compression_percentage')  
 
     if session_id in uploaded_text:
         text = uploaded_text[session_id]["text"]
         images = uploaded_text[session_id]["images"]
 
-        # Передаем процент сжатия в функцию суммаризации
         summarized_text, topics, result_article_json = process_article_for_summary(text, images, compression_percentage)
         return jsonify({
             "result": summarized_text,
             "topics": topics,
-            "articles": result_article_json  # Return articles with topics
+            "articles": result_article_json
         })
     else:
         return jsonify({"result": "No uploaded text found."})
@@ -83,12 +76,11 @@ def ask_question():
         text = uploaded_text[session_id]["text"]
         images = uploaded_text[session_id]["images"]
 
-        # Perform question answering using Mistral AI
         answer, topics, result_article_json = ask_question_to_mistral(text, question, images)
         return jsonify({
             "result": answer,
             "topics": topics,
-            "articles": result_article_json  # Return articles with topics
+            "articles": result_article_json  
         })
     else:
         return jsonify({"result": "No uploaded text found."})
