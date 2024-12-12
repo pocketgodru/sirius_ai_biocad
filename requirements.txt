@@ -11,6 +11,9 @@ langchain_community
 arxiv
 frontend
 tools
-pymupdf
 PyMuPDF
 tavily-python
+langchain_mistralai
+transformers
+torch 
+json-repair
