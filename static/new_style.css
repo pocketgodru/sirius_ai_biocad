@@ -1,0 +1,458 @@
+* {
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'Gunterz-Medium';
+    src: url(Gunterz-Medium.otf) format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'gilroy-lightitalic';
+    src: url(gilroy-lightitalic.ttf) format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'gilroy-medium';
+    src: url(gilroy-medium.ttf) format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'gilroy-bold';
+    src: url(gilroy-bold.ttf) format('opentype');
+    font-weight: 400;
+}
+
+body {
+    background-color: #9FBAF1;
+    overflow-x: hidden;
+}
+
+textarea {
+    resize: none;
+}
+
+.name {
+    position: relative;
+    width: 70vw;
+    height: 13vh;
+    top: 5vh;
+    text-align: center;
+    font-family: gilroy-medium;
+    font-size: 2vw;
+    border-radius: 15px;
+    background-color: whitesmoke;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.hr {
+    background-color: #f0ffff;
+    top: 8vh;
+    position: absolute;
+    width: 5vw;
+    height: 1vh;
+    left: 75vh;
+}
+
+.name-ag {
+    position: absolute;
+    color: rgb(129, 86, 28);
+    left: 43vw;
+    top: 6vh;
+    font-size: 2vh;
+    font-family: Gunterz-Medium;
+}
+
+.img-svg {
+    position: relative;
+    top: 10vh;
+    width: 30vw;
+    left: 70vh;
+}
+
+.btn-load-file {
+    position: absolute;
+    border: 0;
+    top: 30vh;
+    left: 15vw;
+    border-radius: 15px;
+    width: 30vw;
+    height: 13vh;
+}
+
+
+.text-but-lod {
+    width: 65%;
+    height: 70%;
+    background-color: #EAF3B2;
+    border-radius: 15px;
+    font-family: gilroy-medium;
+    text-align: center;
+    font-size: 3vh;
+}
+
+#fileList {
+    display: flex;
+    position: absolute;
+    width: 20vw;
+    height: 10vh;
+    left: 15vw;
+    top: 50vh;
+    border-radius: 15px;
+    background-color: #FDFDF5;
+    font-family: gilroy-medium;
+    font-size: 1vw;
+    color: #9D9D9D;
+    text-align: center;
+}
+
+#fileBlocksContainer {
+    position: relative;
+    left: 15vw;
+    top: 25vh;
+}
+
+
+.btn-1 {
+    position: absolute;
+    top: 30vh;
+    right: 15vw;
+    border-radius: 15px;
+    width: 25vw;
+    height: 13vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    font-family: gilroy-medium;
+    text-align: center;
+    font-size: 3vh;
+}
+.btn-2 {
+    position: absolute;
+    top: 45vh;
+    right: 15vw;
+    border-radius: 15px;
+    width: 25vw;
+    height: 13vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    font-family: gilroy-medium;
+    text-align: center;
+    font-size: 3vh;
+}
+
+.btn-3 {
+    position: absolute;
+    top: 60vh;
+    right: 15vw;
+    border-radius: 15px;
+    width: 25vw;
+    height: 13vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    font-family: gilroy-medium;
+    text-align: center;
+    font-size: 3vh;
+}
+
+.btn-4 {
+    position: absolute;
+    top: 75vh;
+    right: 15vw;
+    border-radius: 15px;
+    width: 25vw;
+    height: 13vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    font-family: gilroy-medium;
+    text-align: center;
+    font-size: 3vh;
+}
+
+
+.text-in-btn {
+    position: relative;
+    top: 30%;
+    font-family: gilroy-medium;
+    font-size: 2vw;
+}
+
+.block-crit {
+    position: relative;
+    width: 80vh;
+    height: 60vh;
+    top: 10vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.block-crit ul {
+    position: absolute;
+    left: 10%;
+    top: 20%; /* Располагаем список ниже заголовка */
+    width: 80%; /* Полная ширина блока */
+    max-height: 70%; /* Ограничиваем высоту области с критериями */
+    overflow-y: auto; /* Включаем вертикальную прокрутку */
+    padding: 0;
+    margin: 0;
+    list-style-type: none; /* Убираем маркеры списка */
+}
+
+.main-2-1 {
+    position: relative;
+    width: 100vh;
+    top: 10vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse; /* Убираем двойные границы */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: gilroy-medium;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+td, th {
+    border: none; /* Убираем все стандартные границы */
+}
+
+/* Внутренние вертикальные границы */
+td:not(:last-child), th:not(:last-child) {
+    border-right: 2px solid #3D568F;
+}
+
+/* Внутренние горизонтальные границы */
+tr:not(:last-child) td {
+    border-top: 2px solid #3D568F;
+    border-bottom: 2px solid #3D568F;
+}
+
+/* Убираем крайние внешние границы (если будет padding от wrapper'а) */
+table {
+    border-spacing: 0;
+}
+
+
+.pred-summ {
+    position: relative;
+    width: 60vh;
+    height: 40vh;
+    top: 10vh;
+    background-color: #FDFDF5;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.compression-percentage-selection {
+    position: relative;
+    top: 12.5vh;
+    background-color: #FFF9EF;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25.5vw;
+    height: 18vh;
+    bottom: 46.5vh;
+}
+
+.compression-percentage-selection-text {
+    position: relative;
+    font-family: gilroy-medium;
+    color: #000000;
+    left: 1vw;
+    top: 1vh;
+    font-size: 1.5vw;
+}
+
+.percentage-selection{
+    width: 22vw;
+    position: relative;
+    top: 3vh;
+    left: 2vw;
+}
+
+/* Основная стилизация ползунка */
+input[type="range"] {
+    -webkit-appearance: none; /* Убираем стандартное оформление */
+    height: 1.5px; /* Высота полоски */
+    background: #3D568F; /* Цвет полоски */
+    outline: none;
+}
+
+
+/* Стилизация бегунка (кружок ползунка) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #EAF3B2; /* Цвет бегунка */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-value {
+    position: absolute;
+    top: 13vh;
+    left: 0px;
+    font-family: gilroy-medium;
+    font-size: 1vw;
+    transition: left 0.1s ease; /* Плавное перемещение текста */
+}
+
+
+.itog-summ {
+    position: relative;
+    width: 80vh;
+    height: 60vh;
+    top: 10vh;
+    background-color: #EAF3B2;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.textarea-answer {
+    resize: none;
+    position: relative;
+    color: black;
+    font-family: gilroy-medium;
+    background-color: #FFFF;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 1.5vw;
+    top: 2vh;
+    left: 2vw;
+    width: 31vw;
+    height: 45vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.ret-art {
+    position: absolute;
+    background-color: #FFF9EF;
+    border-radius: 15px;
+    top: 20vh;
+    width: 35vw;
+    height: 67vh;
+    margin-left: 32.5vw;
+    overflow-x: hidden;
+}
+
+.list-article {
+    position: relative; 
+    top:5vh;
+}
+.list-article-item {
+    font-family: gilroy-lightitalic; 
+    padding-top: 1vh;
+    width: 30vw;
+}
+
+.list-article-item-score {
+    position: absolute; 
+    right: 3.5vw; 
+    text-align: right;
+}
+
+.list-article-item-name {
+    font-size: 1vw; 
+}
+
+.list-article-item-url {
+    color: #93A0B2; 
+    font-size: 1vw;
+    text-decoration: none;
+}
+
+hr {
+    position: relative;
+    background-color: #0C204D;
+    top: 5px;
+    width: 19vw;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.vopr {
+    position: absolute;
+    background-color: #FFF9EF;
+    border-radius: 15px;
+    top: 30vh;
+    width: 35vw;
+    height: 43vh;
+    margin-left: 32.5vw;
+    overflow-x: hidden;
+}
+
+.zad-vopr {
+    position: relative;
+    padding-top: 2vh;
+    border-radius: 15px;
+    width: 25vw;
+    height: 30vh;
+    left: 5vw;
+}
+.start-lit ,.ask-question, .start-summ {
+    position: relative;
+    background-color: #EAF3B2;
+    border: 0;
+    left: 40vw;
+    top: 65vh;
+    border-radius: 15px;
+    width: 20vw;
+    height: 10vh;
+    font-family: gilroy-lightitalic;
+    font-size: 4vh;
+}
+
+.itog-answ {
+    position: relative;
+    width: 80vh;
+    height: 60vh;
+    top: 10vh;
+    background-color: #EAF3B2;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.start-lit {
+    position: relative;
+    background-color: #EAF3B2;
+    border: 0;
+    left: 40vw;
+    top: 85vh;
+    border-radius: 15px;
+    width: 20vw;
+    height: 10vh;
+    font-family: gilroy-lightitalic;
+    font-size: 4vh;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1vw;
+    z-index: 1000;
+}

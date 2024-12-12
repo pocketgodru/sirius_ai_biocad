@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickInsight</title>
+    <link rel="stylesheet" href="../static/new_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .file-item span {
+            flex-grow: 1;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        /* Лоадер */
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+            position: relative;
+            top: 30vh;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-container {
+            display: none;
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body> 
+    <img src="../static/image 8.png" style="position: absolute; right: 1vh; bottom: 1vh;">
+    <header>
+        <div class="name" style="background-color: #FDFDF5;">
+            <p style="position: relative; top: 20%; color: #041630;"><strong style="font-size: 6vh;">QuickInsight</strong> - ассистент для работы с научной литературой</p>
+        </div>
+    </header>
+    <main id="main-1" class="main-1" style="display: blocks;">
+        <p style="position: relative; font-family: gilroy-medium; font-size: 3vw; color: #FDFDF5; left: 15vw; top: 10vh;" >Шаг 1</p>
+        <p style="position: absolute; font-family: gilroy-medium; font-size: 3vw; color: #FDFDF5; right: 15vw; top: 23vh;" >Шаг 2</p>
+        <button class="btn-load-file">
+            <div class="text-but-lod" >
+                <label for="file" style=" position: relative;top: 30%;">Загрузить файл</label>
+            </div>
+            <p style="position: absolute; color: #9D9D9D; font-family: gilroy-lightitalic; right: 2vw; font-size: 1.5vw; text-align: left; top: 20%">
+                минимум <br> 
+                1 файл
+            </p>
+            <input id="file" type="file" name="file[]" multiple style="display: none;">
+        </button>
+        <div id="fileBlocksContainer"></div>
+
+        <div class="btn-1">
+            <p class="text-in-btn">
+                Литературный обзор
+            </p>
+        </div>
+        <div class="btn-2">
+            <p class="text-in-btn">
+                Суммаризация
+            </p>
+        </div>
+        <div class="btn-3">
+            <p class="text-in-btn"  style="top: 10%;">
+                Рекомендация <br>похожих статей
+            </p>
+        </div>
+        <div class="btn-4">
+            <p class="text-in-btn">
+                Вопрос по тексту
+            </p>
+        </div>
+    </main>
+
+    <main id="literature-review" class="main-2" style="display: none;">
+        <div class="block-crit">
+            <p style="position: relative; text-align: center; font-family: gilroy-medium; font-size: 3.5vh; top: 5%;">
+                Задайте критерии для загруженных файлов!
+            </p>
+            
+            <ul style="position: relative;  top: 5%; overflow: hidden; overflow-y: auto;">
+                
+            </ul>
+
+            <p style="position: absolute; left: 22vh; top: 50vh;">
+                <input type="text" name="critter" style="border-radius: 15px; width: 17.5vw; height: 7vh; font-size: 1vw;"  />
+            </p>
+        </div>
+        <div>
+            <button id="start-lit" class="start-lit" style="top: 12vh;">
+                <label>
+                    Начать сравнение
+                </label>
+            </button>
+        </div>
+    </main>
+
+    <main id="main-2-1" class="main-2-1" style="display: none;">
+        <table class="block-li-obr"> 
+            <tr> 
+                <th>Название статьи (краткое)</th> 
+                <th>Методы распространения</th> 
+                <th>Методы исследований</th> 
+                <th>Комплексы</th> 
+                <th>Эксперименты</th> 
+            </tr> 
+            <tr> 
+                <td>COVID-19, an Emerging Coronavirus Infection</td> 
+                <td>Воздушно-капельный, контактно-бытовой</td> 
+                <td>ПЦР, серологический анализ</td> 
+                <td>Лечение, профилактика</td> 
+                <td>Диагностика, терапия</td> 
+            </tr> 
+            <tr> 
+                <td>НОВОЕ О COVID-19</td> 
+                <td>Воздушно-капельный, контактно-бытовой</td> 
+                <td>ПЦР, серологический анализ</td> 
+                <td>Патофизиология, патоп­морфология</td> 
+                <td>Диагностика, терапия</td> 
+            </tr> 
+            <tr> 
+                <td>Новая коронавирусная инфекция (COVID-19)</td> 
+                <td>Воздушно-капельный, контактно-бытовой</td> 
+                <td>ПЦР, серологический анализ</td> 
+                <td>Профилактика, дезинфек­ция</td> 
+                <td>Диагностика, терапия</td> 
+            </tr> 
+        </table>
+    </main>
+
+    <main class="main-3" id="summarize" style="display: none;">
+        <div class="pred-summ">
+            <p style="position: relative; font-family: gilroy-medium; left: 4vh; top: 1vh; text-align: left; font-size: 3.5vh;">
+                Что вам важно увидеть в <br> 
+                резюме?
+            </p>
+
+            <p style="position: relative; left: 4vh; top: 5vh;">
+                <textarea type="text" name="critter" wrap="soft" placeholder="" style="border-radius: 15px; width: 25vw; height: 20vh; font-size: 1vw; resize: none;">
+                </textarea>
+            </p>
+
+            <div class="compression-percentage-selection">
+                <p class="compression-percentage-selection-text">Сколько % оставить от исходного текста?</p>
+                <input class="percentage-selection" id="slider" type="range" onchange="updateText()" min="5" max="95" step="1" value="50">
+                <span id="sliderValue" class="slider-value">50</span>
+                <p style="position: relative; left: 1.5vw; top: 3vh; font-family: gilroy-lightitalic;">5%</p>
+                <p style="position: absolute; right: 1vw; bottom: 4vh; font-family: gilroy-lightitalic;">95%</p>
+            </div>
+
+        </div>
+        <div>
+            <button id="start-summ" class="start-summ" style="top: 32vh;">
+                <label>
+                    Начать
+                </label>
+            </button>
+        </div>
+    </main>
+
+    <main id="main-3-1" class="main-3-1" style="display: none;">
+        <div class="itog-summ">
+            <p style="text-align: left; font-family: gilroy-medium; font-size: 3vh; padding-left: 2vw; padding-top: 1vh;">
+                Суммаризация статьи:
+            </p>
+
+            <div id="answerText" class="textarea-answer" readonly wrap="soft" rows="10" cols="30"></div>
+        </div>
+    </main>
+
+    <main id="article-recommendation" class="main-4" style="display: none;">
+        <div class="ret-art">
+            <p style="position: relative; font-family: gilroy-medium; font-size: 2.5vw; left: 2vw; top:2vh"> 
+                Вот что я нашел:
+            </p>
+
+            <ol class="list-article">             
+            </ol>
+
+        </div>
+    </main>
+
+    <main class="main-5" id="question" style="display: none;">
+        <div class="vopr">
+            <p style="font-family: 'gilroy-medium'; text-align: center; font-size: 3.5vh; padding-top: 2vh; padding-bottom: 2vh;">
+                Задайте вопрос по тексту!
+            </p>
+            <textarea name="user-question" class="zad-vopr" wrap="soft" rows="10" cols="30">
+            </textarea>
+        </div>
+        <div>
+            <button class="ask-question">
+                <label>
+                    Начать
+                </label>
+            </button>
+        </div>
+    </main>
+
+    <main id="main-5-1" class="main-5-1" style="display: none;">
+
+        <div class="itog-answ">
+            <p style="text-align: left; font-family: gilroy-medium; font-size: 3vh; padding-left: 3vw; padding-top: 1vh;">
+                Наш ответ:
+            </p>
+
+            <div id="answerTextQa" class="textarea-answer" readonly wrap="soft" rows="10" cols="30"></div>
+        </div>
+    </main>
+
+    <div id="loading" class="loading-container">
+        <div class="loader"></div>
+        <p style="font-family: gilroy-semibold; font-size: 1.75vw; color: #FFF9EF;">Пожалуйста, подождите. Идет обработка данных...</p>
+    </div>
+
+
+    <script>
+        let uploadedFiles = [];
+        let sessionId;
+        let currentSection = null; // Переменная для хранения текущего отображаемого раздела
+
+        function updateText() {
+            const slider = document.getElementById('slider');
+            const sliderValue = document.getElementById('sliderValue');
+            const sliderPos = slider.value;
+    
+            sliderValue.textContent = sliderPos === '5' || sliderPos === '95' ? '' : sliderPos;
+            const sliderWidth = slider.offsetWidth;
+            const maxRange = slider.max;
+            const leftPosition = (sliderPos / maxRange) * sliderWidth;
+            sliderValue.style.left = leftPosition + 20 + 'px';
+        }
+    
+        updateText();
+
+        function showLoader() {
+            document.getElementById('main-1').style.display = 'none';
+            document.getElementById('literature-review').style.display = 'none';
+            document.getElementById('main-2-1').style.display = 'none';
+            document.getElementById('summarize').style.display = 'none';
+            document.getElementById('main-3-1').style.display = 'none';
+            document.getElementById('article-recommendation').style.display = 'none';
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('main-5-1').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+        }
+    
+        function hideLoader() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+
+
+        // Функция для создания уникального блока для файла
+        function createFileBlock(file) {
+            const fileBlocksContainer = document.getElementById('fileBlocksContainer');
+
+            // Создаем блок для статьи
+            const fileBlock = document.createElement('div');
+            fileBlock.className = 'file-block';
+            fileBlock.style.cssText = `
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: #FDFDF5;
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 10px;
+                font-family: gilroy-medium;
+                width: 25vw;
+                height: 6vh;
+            `;
+
+            // Добавляем название файла
+            const fileNameSpan = document.createElement('span');
+            fileNameSpan.textContent = file.name;
+
+            // Добавляем кнопку (иконку) для удаления файла
+            const removeIcon = document.createElement('img');
+            removeIcon.src = '../static/image 9.png'; // Путь к изображению крестика
+            removeIcon.alt = 'Удалить';
+            removeIcon.style.cssText = `
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            `;
+            removeIcon.addEventListener('click', () => {
+                const index = uploadedFiles.indexOf(file);
+                if (index > -1) {
+                    uploadedFiles.splice(index, 1);
+                    fileBlocksContainer.removeChild(fileBlock);
+                }
+            });
+
+            // Собираем блок
+            fileBlock.appendChild(fileNameSpan);
+            fileBlock.appendChild(removeIcon);
+            fileBlocksContainer.appendChild(fileBlock);
+        }
+
+        // Обработка выбора файлов
+        document.getElementById('file').addEventListener('change', (event) => {
+            const files = Array.from(event.target.files); // Преобразуем FileList в массив
+
+            files.forEach((file) => {
+                // Проверяем, чтобы файл не был уже добавлен
+                if (uploadedFiles.findIndex((uploadedFile) => uploadedFile.name === file.name) !== -1) {
+                    alert(`Файл "${file.name}" уже добавлен.`);
+                    return;
+                }
+
+                uploadedFiles.push(file); // Добавляем файл в массив
+                createFileBlock(file); // Создаем уникальный блок для файла
+            });
+
+            // Очищаем input для возможности повторной загрузки тех же файлов
+            event.target.value = '';
+        });
+
+        function handleButtonClick(action) {
+            if (uploadedFiles.length < 2 && action =='literature-review') {
+                alert("Пожалуйста, загрузите не менее двух файлов для выполнения литературного обзора.");
+                return;
+            }
+            if (uploadedFiles.length === 0) {
+                alert("Выберите файлы перед выполнением действия.");
+                return;
+            }
+
+            const formData = new FormData();
+            uploadedFiles.forEach((file) => {
+                formData.append('files', file);
+            });
+
+            // Отправка файлов на сервер
+            axios.post(`/process`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
+            .then(response => {
+                console.log(`Файлы успешно отправлены для действия: ${action}`);
+                
+                // Проверяем, что данные ответа имеют ожидаемую структуру
+                if (response.data && response.data.session_id) {
+                    console.log("Session ID:", response.data.session_id); // Логируем session_id
+                    sessionId = response.data.session_id;
+                    // Скрываем основной блок main
+                    document.querySelector('main').style.display = 'none';
+
+                    // Показать соответствующий новый раздел
+                    showSection(action);
+                } else {
+                    console.error("Ошибка: Поле 'session_id' отсутствует в ответе сервера.", response.data);
+                }
+            })
+            .catch(error => {
+                alert('Ошибка при обработке файлов.');
+                console.error(error);
+            });
+        }
+
+
+        // Функция для отображения нового раздела
+        function showSection(action) {
+            // Скрыть текущий раздел (если есть)
+            if (currentSection) {
+                currentSection.style.display = 'none';
+            }
+
+            // Показать новый раздел
+            const section = document.getElementById(action);
+            if (section) {
+                section.style.display = 'block';
+                currentSection = section;
+            } else {
+                console.error(`Раздел для действия "${action}" не найден.`);
+            }
+        }
+
+        // Добавляем обработчики для кнопок
+        document.querySelector('.btn-1').addEventListener('click', () => handleButtonClick('literature-review'));
+        document.querySelector('.btn-2').addEventListener('click', () => handleButtonClick('summarize'));
+        document.querySelector('.btn-3').addEventListener('click', () => handleButtonClick('article-recommendation'));
+        document.querySelector('.btn-4').addEventListener('click', () => handleButtonClick('question'));
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const criteriaList = document.querySelector('.block-crit ul'); // Список критериев
+        const inputField = document.querySelector('input[name="critter"]'); // Поле ввода для нового критерия
+
+        // Функция для добавления нового критерия
+        function addCriterion(text) {
+            const listItem = document.createElement('li');
+            listItem.style.cssText = 'padding-top: 5vh; list-style-type: none;';
+
+            // Иконка удаления
+            const removeIcon = document.createElement('img');
+            removeIcon.src = '../static/image 9.png';
+            removeIcon.style.cssText = 'position: absolute;';
+            removeIcon.width = 30; // Ширина изображения
+            removeIcon.addEventListener('click', () => {
+                criteriaList.removeChild(listItem); // Удаляем критерий при нажатии
+            });
+
+            // Текст критерия
+            const criterionText = document.createElement('p');
+            criterionText.style.cssText = 'position: relative; left: 5vw; font-family: gilroy-medium; font-size: 3vh; bottom:5px;';
+            criterionText.textContent = text;
+
+            // Добавляем элементы в пункт списка
+            listItem.appendChild(removeIcon);
+            listItem.appendChild(criterionText);
+
+            criteriaList.scrollTop = criteriaList.scrollHeight;
+
+            // Добавляем пункт в список
+            criteriaList.appendChild(listItem);
+        }
+
+        // Обработка события "Enter" в поле ввода
+        inputField.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const text = inputField.value.trim(); // Убираем лишние пробелы
+                if (text) {
+                    addCriterion(text); // Добавляем критерий
+                    inputField.value = ''; // Очищаем поле
+                }
+            }
+        });
+    });
+
+        // Функция для переключения отображаемых секций
+        function switchMainSection(...sectionsToShow) {
+            const allMainSections = document.querySelectorAll('main');
+            // Скрываем все блоки main
+            allMainSections.forEach((section) => {
+                section.style.display = 'none';
+            });
+            // Показываем только нужные блоки
+            sectionsToShow.forEach((sectionId) => {
+                const section = document.querySelector(`.${sectionId}`);
+                if (section) {
+                    section.style.display = 'block';
+                } else {
+                    console.error(`Раздел ${sectionId} не найден`);
+                }
+            });
+        }
+
+        document.getElementById('start-lit').addEventListener('click', async () => {
+            showLoader();
+
+            const criteriaList = document.querySelector('.block-crit ul');
+            const criteriaItems = criteriaList.querySelectorAll('li');
+            const criteriaArray = Array.from(criteriaItems).map(item => item.textContent.trim());
+            criteriaList.innerHTML = '';
+            const inputField = document.querySelector('input[name="critter"]');
+            inputField.value = '';
+
+            const payload = {
+                session_id: sessionId,
+                criteria: criteriaArray
+            };
+
+            try {
+                const response = await fetch('/literature-review', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                let comparisonTable = result.comparison_table;
+                if (typeof comparisonTable === 'string') {
+                    try {
+                        comparisonTable = JSON.parse(comparisonTable);
+                    } catch (e) {
+                        console.error('Ошибка при парсинге JSON для таблицы:', e);
+                        alert('Ошибка при обработке данных таблицы.');
+                        return;
+                    }
+                }
+                console.log(comparisonTable.markdown)
+                const container = document.getElementById('main-2-1');
+                container.innerHTML = marked.parse(comparisonTable.markdown);
+                container.style.display = 'block';
+
+                const tooltip = document.createElement('div');
+                tooltip.id = 'tooltip';
+                tooltip.classList.add('tooltip');
+                document.body.appendChild(tooltip);
+
+                const quotes = result.quotes;
+                const table = container.querySelector('table');
+                if (table) {
+                    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+                    const rows = table.querySelectorAll('tbody tr');
+
+                    // Iterate through each row of the table
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        const articleTitle = cells[0].textContent.trim();  // First column is the article title
+
+                        // Iterate through headers to assign the correct quotes
+                        headers.forEach((header, index) => {
+                            // Ensure index > 0 to skip the article title column and handle only the criteria columns
+                            if (index > 0 && quotes[header]) {
+                                cells[index].setAttribute('data-quote', quotes[header][articleTitle]);
+                            }
+                        });
+                    });
+
+                    // Attach event listeners to the cells with quotes
+                    table.querySelectorAll('[data-quote]').forEach(cell => {
+                        cell.addEventListener('click', (event) => {
+                            const quote = cell.getAttribute('data-quote');
+                            if (quote) {
+                                tooltip.textContent = quote;
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = `${event.pageX + 10}px`;
+                                tooltip.style.top = `${event.pageY + 10}px`;
+                                event.stopPropagation();
+                            }
+                        });
+                    });
+
+                    document.addEventListener('click', () => {
+                        tooltip.style.display = 'none';
+                    });
+
+                    tooltip.addEventListener('click', (event) => {
+                        event.stopPropagation();
+                    });
+                }
+
+                } catch (error) {
+                    console.error('Ошибка при отправке данных на бэкенд:', error);
+                } finally {
+                    hideLoader();
+                }
+            });
+
+
+
+
+
+
+
+        // Обработка нажатия кнопки "Начать" (main-3)
+        document.querySelector('.start-summ').onclick = async function() {
+            document.getElementById('summarize').style.display = 'none';
+            const slider = document.getElementById('slider');
+            const compressionPercentage = slider.value;
+            const userPreferences = document.querySelector('textarea[name="critter"]').value.trim();
+            showLoader()
+            if (compressionPercentage <= 0 || compressionPercentage > 100) {
+                alert("Пожалуйста, выберите корректный процент сжатия.");
+                return;
+            }
+
+            // Создаем данные для отправки на сервер
+            const requestData = {
+                session_id : sessionId,
+                percentage: compressionPercentage,
+                preferences: userPreferences
+            };
+
+            const response = await fetch('/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData) // Преобразование данных в JSON
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status}`);
+            }
+
+            
+            document.getElementById('main-3-1').style.display = 'block';
+            hideLoader()
+            // Разбираем JSON-ответ
+            const result = await response.json();
+            
+            // Преобразуем Markdown в HTML и отображаем результат
+            const summaryHtml = marked.parse(result.result);
+            document.getElementById('answerText').innerHTML = summaryHtml;
+            
+           
+        };
+
+        // Обработка нажатия кнопки "Задать вопрос" (main-4)
+        document.querySelector('.ask-question').onclick = async function() {
+            document.getElementById('question').style.display = 'none';
+            showLoader(); // Показать индикатор загрузки
+
+            const userQuestion = document.querySelector('textarea[name="user-question"]').value.trim();
+
+            if (!userQuestion) {
+                alert("Пожалуйста, введите вопрос.");
+                hideLoader(); // Скрыть индикатор загрузки
+                return;
+            }
+
+            // Создаем данные для отправки на сервер
+            const requestData = {
+                session_id: sessionId,
+                question: userQuestion
+            };
+
+            try {
+                const response = await fetch('/question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData) // Преобразование данных в JSON
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+
+                // Разбираем JSON-ответ
+                const result = await response.json();
+
+                // Отображаем результат ответа на вопрос
+                document.getElementById('main-5-1').style.display = 'block'; // Переход к разделу ответа
+                document.getElementById('answerTextQa').innerHTML = marked.parse(result.result); // Заполняем результат
+            } catch (error) {
+                console.error('Ошибка при обработке вопроса:', error);
+                alert('Произошла ошибка при обработке вашего вопроса.');
+            } finally {
+                hideLoader(); // Скрыть индикатор загрузки
+            }
+        };
+
+
+        document.querySelector('.btn-3').onclick = async function() {
+            // Функция для проверки наличия sessionId и отправки запроса на получение статей
+            const waitForSessionId = async () => {
+                while (!sessionId) {
+                    console.log('Ожидание sessionId...');
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Ждем 1 секунду
+                }
+                console.log('Session ID найден:', sessionId);
+            };
+
+            try {
+                showLoader(); 
+
+                // Ждем пока sessionId не будет доступен
+                await waitForSessionId();
+
+                const requestData = {
+                    session_id: sessionId,
+                };
+
+                const response = await fetch('/article-recommendation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestData), // Преобразование данных в JSON
+                });
+
+                const responseText = await response.text(); // Получаем текстовый ответ для диагностики
+                console.log('Полученные данные:', responseText); // Выводим полученные данные в консоль
+
+                let responseData;
+                try {
+                    responseData = JSON.parse(responseText); // Пробуем распарсить в JSON
+                } catch (e) {
+                    console.error('Ошибка при парсинге JSON:', e);
+                    console.error('Полученные данные:', responseText); // Выводим оригинальные данные
+                    alert('Ошибка при обработке данных. Пожалуйста, проверьте консоль.');
+                    return;
+                }
+
+                let articlesByTopic = responseData.articles; // Предполагаем, что статьи находятся в поле "articles"
+
+                // Проверка типа данных для articlesByTopic, если это строка, то парсим
+                if (typeof articlesByTopic === 'string') {
+                    try {
+                        articlesByTopic = JSON.parse(articlesByTopic); // Преобразуем строку в объект
+                        console.log('Статьи после парсинга:', articlesByTopic);
+                    } catch (e) {
+                        console.error('Ошибка при парсинге JSON для articles:', e);
+                        console.error('Полученные данные:', articlesByTopic);
+                        alert('Ошибка при обработке данных статей.');
+                        return;
+                    }
+                }
+
+                // Вызов функции для обновления таблицы статей
+                displayArticles(articlesByTopic);
+
+            } catch (error) {
+                console.error('Ошибка при получении списка статей:', error);
+                alert('Произошла ошибка при получении списка статей.');
+            } finally {
+                hideLoader(); // Скрываем индикатор загрузки
+            }
+        };
+
+        // Function to display articles of a selected topic
+        function displayArticles(articlesByTopic) {
+            const articleBlock = document.querySelector('#article-recommendation .ret-art'); // Находим блок с результатами
+            const articlesList = articleBlock.querySelector('.list-article'); // Список статей
+            articleBlock.style.display = 'block'; // Показать блок с результатами
+
+            articlesList.innerHTML = ''; // Очищаем предыдущий список
+
+            // Если нет статей по всем темам
+            if (!articlesByTopic || Object.keys(articlesByTopic).length === 0) {
+                const noArticlesMessage = document.createElement('p');
+                noArticlesMessage.textContent = 'Статьи не найдены.';
+                noArticlesMessage.style.cssText = 'text-align: center; font-size: 16px; color: #666;';
+                articlesList.appendChild(noArticlesMessage);
+                return;
+            }
+
+            // Проходим по каждому топику и его статьям
+            Object.keys(articlesByTopic).forEach(topic => {
+                const topicArticles = articlesByTopic[topic];
+
+                // Проходим по статьям для текущего топика
+                topicArticles.forEach(article => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('list-article-item');
+                    listItem.innerHTML = `
+                        <p class="list-article-item-name"><strong>${article.title}</strong></p>
+                        <a class="list-article-item-url" target="_blank" href="${article.url}">Ссылка на статью</a>
+                        <br>
+                        <a class="list-article-item-url" target="_blank" href="${article.pdf_url}">Ссылка на статью (pdf)</a>
+                        <hr>
+                    `;
+                    articlesList.appendChild(listItem);
+                });
+            });
+        }
+
+
+    </script>
+</body>
+</html>
